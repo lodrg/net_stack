@@ -42,7 +42,7 @@ int tun_alloc(char *dev) {
 
     if ((fd = open("/dev/net/tun", O_RDWR)) < 0) {
         perror("open /dev/net/tun");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     memset(&ifr, 0, sizeof(ifr));
@@ -52,7 +52,7 @@ int tun_alloc(char *dev) {
     if ((err = ioctl(fd, TUNSETIFF, (void *)&ifr)) < 0) {
         perror("ioctl TUNSETIFF");
         close(fd);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
     strcpy(dev, ifr.ifr_name);
