@@ -5,6 +5,7 @@
 #include "utils.h"
 #include <arpa/inet.h>
 #include <errno.h>
+#include "arp.h"
 
 #define BUF_SIZE 1600
 
@@ -12,8 +13,8 @@ void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
 {
     switch (hdr->ethertype) {
         case ETH_P_ARP:
-            // arp_incoming(netdev, hdr);
-            (void)netdev; // 防止编译器警告
+            arp_incoming(netdev, hdr);
+            // (void)netdev; // 防止编译器警告
             printf("Found ARP\n");
             break;
         case ETH_P_IP:

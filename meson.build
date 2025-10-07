@@ -10,7 +10,7 @@ inc = include_directories('include')
 
 # 获取所有源文件
 src_files = files(
-  # 'src/main.c',
+  'src/main.c',
   # 如果有其他 .c 文件，继续添加
   # 'src/other.c',
 )
