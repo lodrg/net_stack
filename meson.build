@@ -16,7 +16,8 @@ src_files = files(
 )
 
 # 也可以自动查找所有 .c 文件
-src_files = run_command('find', 'src', '-name', '*.c', check: true).stdout().strip().split('\n')
+src_list = run_command('find', 'src', '-name', '*.c', check: true).stdout().strip().split('\n')
+src_files = files(src_list)
 
 # 创建可执行文件
 executable('net_stack',

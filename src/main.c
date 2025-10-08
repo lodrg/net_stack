@@ -6,6 +6,7 @@
 #include <arpa/inet.h>
 #include <errno.h>
 #include "arp.h"
+#include "ipv4.h"
 
 #define BUF_SIZE 1600
 
@@ -18,6 +19,7 @@ void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
             printf("Found ARP\n");
             break;
         case ETH_P_IP:
+            ipv4_incoming(netdev, hdr);
             printf("Found IPv4\n");
             break;
         default:

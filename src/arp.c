@@ -69,7 +69,7 @@ void arp_incoming(struct netdev *netdev, struct eth_hdr *hdr)
     merge = update_arp_translation_table(arphdr, arpdata);
 
     if (netdev->ip != arpdata->dip) {
-        printf("ARP: Not for us\n");
+        printf("ARP: Not for us\n ip=%x dip=%x\n", ntohl(netdev->ip), ntohl(arpdata->dip));
     }
 
     if (!merge && insert_arp_translation_table(arphdr, arpdata) != 0) {
