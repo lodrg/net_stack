@@ -31,6 +31,7 @@ void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
 // ---------------- 主逻辑 ----------------
 int main() {
     char ifname[IFNAMSIZ] = "tap0";
+    // 初始化 TUN/TAP 设备
     tun_init(ifname);
 
     printf("[+] TAP device %s initialized\n", ifname);
@@ -40,13 +41,17 @@ int main() {
     uint32_t my_ip = inet_addr("10.0.0.4");   // 注意: 用 network byte order
     unsigned char my_mac[6] = {0x00,0x0c,0x29,0x6d,0x50,0x25};
 
+    // 初始化 netdev 结构体
     netdev_init(&netdev,my_ip,my_mac);
 
-    // arp_init();
+    // 初始化 ARP 模块
+    arp_init();
 
     char buf[BUF_SIZE];
 
+    // 主循环
     while (1) {
+        // 从 TUN/TAP 设备读取数据
         int nread = tun_read(buf, sizeof(buf));
         if (nread < 0) {
             print_error("ERR: Read from tun_fd: %s\n", strerror(errno));
@@ -56,6 +61,7 @@ int main() {
 
         struct eth_hdr *eth = (struct eth_hdr*) buf;
         eth->ethertype = ntohs(eth->ethertype);
+        // 处理以太网帧
         handle_frame(&netdev, eth);
     }
 }

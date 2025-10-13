@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 
+// 执行系统命令
 int run_cmd(char *cmd, ...)
 {
     va_list ap;
@@ -29,6 +30,7 @@ void print_hexdump(char *str, int len)
     printf("\n");
 }
 
+// 打印错误信息
 void print_error(char *str, ...)
 {
     va_list ap;
@@ -41,6 +43,7 @@ void print_error(char *str, ...)
     perror(buf);
 }
 
+// 计算校验和
 uint16_t checksum(void *addr, int count)
 {
     /* Compute Internet Checksum for "count" bytes
