@@ -10,3 +10,5 @@
 #include <linux/if.h>
 #include <linux/if_tun.h>
 #include <linux/if_ether.h>
+
+#define CLEAR(x) memset(&(x), 0, sizeof(x))

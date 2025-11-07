@@ -77,17 +77,17 @@ int tun_write(char *buffer, int len)
 }
 
 // 初始化 TUN/TAP 设备
-void tun_init(char *dev) 
+void tun_init(char *dev_name) 
 {
-    tun_fd = tun_alloc(dev); 
+    tun_fd = tun_alloc(dev_name); 
 
-    if (set_if_up(dev) != 0) {
+    if (set_if_up(dev_name) != 0) {
         print_error("ERROR when setting up if\n");
     }
-    if (set_if_addr(dev,"10.0.0.4") != 0) {
+    if (set_if_addr(dev_name,"10.0.0.4") != 0) {
         print_error("ERROR when setting addr for if\n");
     }
-    if (set_if_route(dev, "10.0.0.0/24") != 0) {
+    if (set_if_route(dev_name, "10.0.0.0/24") != 0) {
         print_error("ERROR when setting route for if\n");
     }
 }

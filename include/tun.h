@@ -6,4 +6,4 @@ int tun_read(char *buffer, int len);
 
 int tun_write(char *buffer, int len);
 
-void tun_init(char *dev);
+void tun_init(char *dev_name);

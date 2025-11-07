@@ -1,11 +1,14 @@
 #include "netdev.h"
+#include <stdio.h>
 #include <string.h>
+#include "basic.h"
 #include "tun.h"
 #include "hdrs.h"
 #include <arpa/inet.h>
+#include <sys/socket.h>
 
 // 初始化网络设备
-void netdev_init(struct netdev *ndev, uint32_t ip, unsigned char *mac)
+void netdev_init_bin(struct netdev *ndev, uint32_t ip, unsigned char *mac)
 {
     if (!ndev || !mac) {
         return;
@@ -14,6 +17,18 @@ void netdev_init(struct netdev *ndev, uint32_t ip, unsigned char *mac)
     // 注意: 这里没有做任何错误检查
     ndev->ip = ip;
     memcpy(ndev->mac, mac, 6);
+}
+
+void netdev_init_str(struct netdev *ndev, const char *ip_str, const char *mac_str)
+{
+    CLEAR(*ndev);
+    if(inet_pton(AF_INET, ip_str, &ndev->ip) != 1) {
+        perror("ERR: Parsing inet address failed\n");
+        exit(1);
+    }
+    sscanf(mac_str, "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx",
+           &ndev->mac[0], &ndev->mac[1], &ndev->mac[2],
+           &ndev->mac[3], &ndev->mac[4], &ndev->mac[5]);
 }
 
 // 发送以太网帧

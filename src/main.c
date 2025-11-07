@@ -8,7 +8,9 @@
 #include "arp.h"
 #include "ipv4.h"
 
-#define BUF_SIZE 1600
+#define BUF_SIZE 100
+
+
 
 void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
 {
@@ -36,18 +38,15 @@ int main() {
 
     printf("[+] TAP device %s initialized\n", ifname);
 
-    struct netdev netdev;
-    // 我们虚构的 "本机 IP+MAC"
-    uint32_t my_ip = inet_addr("10.0.0.4");   // 注意: 用 network byte order
-    unsigned char my_mac[6] = {0x00,0x0c,0x29,0x6d,0x50,0x25};
-
     // 初始化 netdev 结构体
-    netdev_init(&netdev,my_ip,my_mac);
+    struct netdev netdev;
+    netdev_init_str(&netdev,"10.0.0.4","00:0c:29:6d:50:25");
 
     // 初始化 ARP 模块
     arp_init();
 
     char buf[BUF_SIZE];
+    CLEAR(buf);
 
     // 主循环
     while (1) {
@@ -60,8 +59,11 @@ int main() {
         // print_hexdump(buf, BUF_SIZE);
 
         struct eth_hdr *eth = (struct eth_hdr*) buf;
+        // 网络序（大端序）转换为主机序
+        // 接下来会在主机中对以太网帧进行处理
         eth->ethertype = ntohs(eth->ethertype);
         // 处理以太网帧
         handle_frame(&netdev, eth);
     }
+    free(ifname);
 }

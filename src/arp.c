@@ -63,6 +63,18 @@ void arp_init()
 // 处理收到的 ARP 包
 void arp_incoming(struct netdev *netdev, struct eth_hdr *hdr)
 {
+    // ┌───────────────────────────────┐
+    // │ HTYPE (2 bytes)               │ 硬件类型（1=Ethernet）
+    // │ PTYPE (2 bytes)               │ 协议类型（0x0800=IPv4）
+    // │ HLEN  (1 byte)                │ 硬件地址长度（6）
+    // │ PLEN  (1 byte)                │ 协议地址长度（4）
+    // │ OPER  (2 bytes)               │ 操作（1=Request, 2=Reply）
+    // ├───────────────────────────────┤
+    // │ Sender MAC (6 bytes)          │
+    // │ Sender IP  (4 bytes)          │
+    // │ Target MAC (6 bytes)          │
+    // │ Target IP  (4 bytes)          │
+    // └───────────────────────────────┘
     struct arp_hdr *arphdr = (struct arp_hdr *)hdr->payload;
     struct arp_ipv4 *arpdata = (struct arp_ipv4 *)arphdr->data;
     int merge = 0;
