@@ -74,15 +74,8 @@ int main() {
     char ifname[IFNAMSIZ] = "tap0";
 
     init_signals();
-
-    // 初始化 TUN/TAP 设备
     tun_init(ifname);
-
-    printf("[+] TAP device %s initialized\n", ifname);
-
     netdev_init_str(&netdev,"10.0.0.4","00:0c:29:6d:50:25");
-
-    // 初始化 ARP 模块
     arp_init();
 
     // 主循环
@@ -104,6 +97,5 @@ int main() {
     }
 
     cleanup_all(&netdev);
-
     return 0;
 }

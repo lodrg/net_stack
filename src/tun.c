@@ -90,6 +90,7 @@ void tun_init(char *dev_name)
     if (set_if_route(dev_name, "10.0.0.0/24") != 0) {
         print_error("ERROR when setting route for if\n");
     }
+    printf("[+] TAP device %s initialized\n", dev_name);
 }
 
 void tun_close()
