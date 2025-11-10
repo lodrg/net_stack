@@ -49,3 +49,8 @@ void netdev_transmit(struct netdev *dev, struct eth_hdr *hdr,
 
     tun_write((char *)hdr, len);
 }
+
+void netdev_cleanup(struct netdev *ndev)
+{
+    // Currently no dynamic resources to clean up in netdev
+}

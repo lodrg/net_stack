@@ -146,3 +146,7 @@ void arp_reply(struct netdev *netdev, struct eth_hdr *hdr, struct arp_hdr *arphd
     netdev_transmit(netdev, hdr, ETH_P_ARP, len, arpdata->dmac);
 }
 
+void arp_cleanup()
+{
+    // Currently no dynamic resources to clean up in ARP module
+}

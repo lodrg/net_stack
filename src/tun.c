@@ -91,3 +91,11 @@ void tun_init(char *dev_name)
         print_error("ERROR when setting route for if\n");
     }
 }
+
+void tun_close()
+{
+    if (tun_fd >= 0) {
+        close(tun_fd);
+        tun_fd = -1;
+    }
+}   

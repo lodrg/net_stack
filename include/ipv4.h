@@ -25,5 +25,4 @@ struct iphdr {
 } __attribute__((packed));
 
 void ipv4_incoming(struct netdev *netdev, struct eth_hdr *hdr);
-
 int ipv4_outgoing(struct netdev *netdev, struct eth_hdr *hdr);
