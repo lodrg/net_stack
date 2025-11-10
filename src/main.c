@@ -58,6 +58,14 @@ void handle_frame(struct netdev *netdev, struct eth_hdr *hdr)
     }
 }
 
+void cleanup_all(struct netdev *netdev)
+{
+    printf("\n[-] Stack shutting down...\n");
+    tun_close();
+    netdev_cleanup(&netdev);
+    arp_cleanup();
+}
+
 // ---------------- 主逻辑 ----------------
 int main() {
     char buf[BUF_SIZE];
@@ -95,10 +103,7 @@ int main() {
         handle_frame(&netdev, eth);
     }
 
-    printf("\n[-] Stack shutting down...\n");
-    tun_close();
-    netdev_cleanup(&netdev);
-    arp_cleanup();
+    cleanup_all(&netdev);
 
     return 0;
 }
